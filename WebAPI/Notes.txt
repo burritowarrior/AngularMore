@@ -6,6 +6,9 @@ https://vscode.one/terminal-font-size/
 https://stackoverflow.com/questions/4298960/git-add-and-commit-in-one-command
 
 $ git config --global alias.add-commit '!git add -A && git commit'
+
+The following will _unset_ the macro
+$ git config --global --unset alias.<your_alias>
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
