@@ -1,15 +1,15 @@
 using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Serilog;
-using Serilog.Core;
+using Models;
+using Models.Parker;
 
 namespace WebAPI.Controllers
-{    
+{
     [Route("api/[controller]")]
     [ApiController]
     public class ExistingController : ControllerBase    
     {
-        // private readonly Serilog.Core.Logger _log;
         [HttpGet]
         [Route("rates/{lotNumber}")]
         public IActionResult GetRates(string lotNumber)
@@ -18,8 +18,6 @@ namespace WebAPI.Controllers
             // > dotnet dev-certs https --trust
 
             // return BadRequest("An error has occurred...");
-
-            // _log.Information("Inside rate retrieval");
             var dataLayer = new DAL.DataLayer();
             var rates = dataLayer.GetBaseRates(lotNumber);
 
@@ -28,22 +26,33 @@ namespace WebAPI.Controllers
 
         [HttpGet]
         [Route("parkerprofile/{lotNumber}")]
-        public async System.Threading.Tasks.Task<IActionResult> GetParkerProfile(string lotNumber) 
+        public async Task<IActionResult> GetParkerProfile(string lotNumber) 
         {
             // https://stackoverflow.com/questions/60197270/jsonexception-a-possible-object-cycle-was-detected-which-is-not-supported-this
 
             try {
                 var asyncLayer = new DAL.AsyncLayer();
                 var results = await asyncLayer.GetParkerProfiles(lotNumber);
-                // _log.Information("I have the information");
-
-                return Ok(results);
+                 return Ok(results);
             } catch (Exception ex) {
-                // _log.Information($"An error occurred... {ex.Message}");
                 return BadRequest(ex.Message);
-            }
+            }           
+        }     
 
-            
-        }        
+        [HttpGet]
+        [Route("simpleparker/{parkerId}")]
+        public IActionResult GetSimpleParker(string parkerId)
+        {
+            try {
+                var gr = new DAL.GenericRepository<SimpleParker>();
+                FluentParameter fp = new FluentParameter();
+                fp.ParkerId(parkerId);
+                
+                var simpleParker = gr.FindById("[MRP].[SimpleParker]", fp.KeyData);
+                 return Ok(simpleParker);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
+        }   
     }
 }
