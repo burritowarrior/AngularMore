@@ -10,10 +10,15 @@ namespace DAL
     {
         private IEnumerable<T> dto;
         private string _connectionString = @"";
+        private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
 
-        public GenericRepository()
+        public GenericRepository(bool useDevelopmentDatabase = false)
         {
             _connectionString = @"Server=TITANIA\SQLSTD2017;Database=AcePark;User Id=aceparkuser;Password=aceparkuser;";
+
+            if (useDevelopmentDatabase) {
+                _connectionString = _developmentString;
+            }
         }
 
         public IEnumerable<T> All(string id)
@@ -38,5 +43,17 @@ namespace DAL
 
             return sqlConn.QueryFirst<T>(procedure, theParams, commandType: CommandType.StoredProcedure);
         }
+        public bool Add(T entity)
+        {
+            int rowsAffected = 0;
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var sqlQuery = entity.GenerateSqlStatement<T>();
+                rowsAffected = db.Execute(sqlQuery, entity);
+            }
+
+            return rowsAffected > 0;
+        }
+
     }
 }

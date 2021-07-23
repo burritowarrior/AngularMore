@@ -6,9 +6,9 @@ namespace DAL.Repository
     {
         IEnumerable<T> All(string id);
         T FindById(string procedure, Dictionary<string, object> propParameters);
-        // void Add(T entity);
+        bool Add(T entity);
         // void Delete(T entity);
         // void Update(T entity);
         // T FindById(int Id); 
     }
-}
+};

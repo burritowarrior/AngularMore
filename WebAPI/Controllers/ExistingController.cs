@@ -53,6 +53,20 @@ namespace WebAPI.Controllers
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    
-        }   
+        }
+
+        [HttpPost]
+        [Route("InsertData")]
+        public IActionResult InsertData(City simpleCity)
+        {
+            try {
+                var gr = new DAL.GenericRepository<City>(true);
+                var results = gr.Add(simpleCity);
+                
+                return Ok(simpleCity);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
+        }          
     }
 }
