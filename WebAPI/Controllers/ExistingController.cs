@@ -67,6 +67,20 @@ namespace WebAPI.Controllers
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    
+        }
+
+        [HttpPatch]
+        [Route("UpdateData")]
+        public IActionResult Update(City simpleCity)
+        {
+            try {
+                var gr = new DAL.GenericRepository<City>(true);
+                var results = gr.Update(simpleCity);
+                
+                return Ok(simpleCity);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
         }          
     }
 }

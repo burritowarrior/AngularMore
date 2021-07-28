@@ -48,12 +48,23 @@ namespace DAL
             int rowsAffected = 0;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = entity.GenerateSqlStatement<T>();
+                var sqlQuery = entity.GenerateInsertStatement<T>();
                 rowsAffected = db.Execute(sqlQuery, entity);
             }
 
             return rowsAffected > 0;
         }
 
+        public bool Update(T entity)
+        {
+            int rowsAffected = 0;
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var sqlQuery = entity.GenerateUpdateStatement<T>();
+                rowsAffected = db.Execute(sqlQuery, entity);
+            }
+
+            return rowsAffected > 0;
+        }
     }
 }

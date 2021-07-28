@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 
@@ -6,7 +8,7 @@ namespace DAL
 {
     public static class Helpers
     {
-        public static string GenerateSqlStatement<T>(this T item)
+        public static string GenerateInsertStatement<T>(this T item)
         {
             var props = item.GetType().GetProperties();
             var colNames = props.Select(s => s.Name).ToArray();
@@ -49,6 +51,46 @@ namespace DAL
             var sql = $"INSERT INTO {item.GetType().Name} ({fieldClause}) VALUES ({sb.ToString().Trim(chars)})";
             
             return sql;
-        }        
+        }
+
+        public static string GenerateUpdateStatement<T>(this T item)
+        {
+            var props = item.GetType().GetProperties();
+            var colNames = props.Select(s => s.Name).ToArray();
+            var statements = new List<string>();
+
+            var initialSql = $"UPDATE {item.GetType().Name} SET ";
+            
+            foreach (var val in props)
+            {
+                var attributeValue = (KeyAttribute[])val.GetCustomAttributes(typeof(KeyAttribute), false);
+                var results = attributeValue.Length > 0 
+                    ? ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null), true)
+                    : ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null));
+                statements.Add(results);
+            }
+
+            var whatever = statements.Where(s => !s.StartsWith("WHERE")).Select(t => $"{t}, ").ToArray();
+            var kookoo = string.Join(' ', whatever).Trim(new [] { ' ', ',' });
+            var whereClause = statements.FirstOrDefault(s => s.StartsWith("WHERE"));
+
+            return $"{initialSql} {kookoo} {whereClause}";
+        }
+
+        private static string ResolveType(string propertyName, string propertyType, object value, bool isKeyValue = false)
+        {
+            if (propertyType == "System.Int32" || propertyType == "System.Int64" || propertyType == "System.Decimal")
+            {
+                return isKeyValue ? $"WHERE {propertyName} = {value}" : $"{propertyName} = {value}";
+            }
+            
+            if (propertyType == "System.Boolean")
+            {
+                var oneOrZero = value.ToString() == "True" ? 1 : 0;
+                return isKeyValue ? $"WHERE {propertyName} = {oneOrZero}" : $"{propertyName} = {oneOrZero}";
+            }			
+
+            return isKeyValue ? $"WHERE {propertyName} = '{value}'" : $"{propertyName} = '{value}'";
+        }   
     }
 }
