@@ -45,11 +45,10 @@ namespace WebAPI.Controllers
         {
             try {
                 var gr = new DAL.GenericRepository<SimpleParker>();
-                FluentParameter fp = new FluentParameter();
-                fp.ParkerId(parkerId);
+                FluentParameter fp = new FluentParameter().ParkerId(parkerId);
                 
                 var simpleParker = gr.FindById("[MRP].[SimpleParker]", fp.KeyData);
-                 return Ok(simpleParker);
+                return Ok(simpleParker);
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    
