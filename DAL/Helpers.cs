@@ -77,6 +77,26 @@ namespace DAL
             return $"{initialSql} {kookoo} {whereClause}";
         }
 
+        public static string GenerateDeleteStatement<T>(this T item)
+        {
+            var props = item.GetType().GetProperties();
+            var colNames = props.Select(s => s.Name).ToArray();
+            var statements = new List<string>();
+
+            var initialSql = $"DELETE FROM {item.GetType().Name} WHERE ";
+            
+            foreach (var val in props)
+            {
+                var attributeValue = (KeyAttribute[])val.GetCustomAttributes(typeof(KeyAttribute), false);
+                var results = attributeValue.Length > 0 
+                    ? ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null), true)
+                    : ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null));
+                statements.Add(results);
+            }
+
+            return $"{initialSql}";
+        }
+
         private static string ResolveType(string propertyName, string propertyType, object value, bool isKeyValue = false)
         {
             if (propertyType == "System.Int32" || propertyType == "System.Int64" || propertyType == "System.Decimal")
