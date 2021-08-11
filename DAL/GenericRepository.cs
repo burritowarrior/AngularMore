@@ -66,5 +66,15 @@ namespace DAL
 
             return rowsAffected > 0;
         }
+
+        void IGenericRepository<T>.Update(T entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public T FindById(int Id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
