@@ -7,7 +7,7 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BaseRateController : ControllerBase
+    public class SimpleRateController : ControllerBase
     {
         [HttpPost]
         [Route("InsertData")]
