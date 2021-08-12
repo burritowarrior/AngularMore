@@ -18,10 +18,10 @@ namespace WebAPI.Controllers
                 var results = gr.Add(simpleCity);
                 
             } catch (Exception ex) {
-                return BadRequest(ex.Message);
+                return BadRequest(new { Status = false, Message = ex.Message });
             }   
 
-            return Ok(simpleCity); 
+            return Ok(new { Status = true, Message = "Item successfully inserted" }); 
         }        
     }
 }
