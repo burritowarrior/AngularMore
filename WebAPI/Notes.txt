@@ -10,6 +10,9 @@ $ git config --global alias.add-commit '!git add -A && git commit'
 The following will _unset_ the macro
 $ git config --global --unset alias.<your_alias>
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+https://dotnettutorials.net/lesson/asp-net-core-launchsettings-json-file/
+
+Understanding the launchSettings.json file
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

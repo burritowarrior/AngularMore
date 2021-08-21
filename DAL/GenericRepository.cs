@@ -21,14 +21,16 @@ namespace DAL
             }
         }
 
-        public IEnumerable<T> All(string procedure, Dictionary<string, object> propParameters)
+        public IEnumerable<T> All(string procedure, Dictionary<string, object> propParameters = null)
         {
             using var sqlConn = new SqlConnection(_connectionString);
             sqlConn.Open();
 
-            var theParams = new DynamicParameters();
-            foreach  (KeyValuePair<string, object> kvp in propParameters) {
-                theParams.Add($"@{kvp.Key}", kvp.Value);
+            var theParams = propParameters == null ? null : new DynamicParameters();
+            if (theParams != null) {
+                foreach  (KeyValuePair<string, object> kvp in propParameters) {
+                    theParams.Add($"@{kvp.Key}", kvp.Value);
+                }                
             }
 
             return sqlConn.Query<T>(procedure, theParams, commandType: CommandType.StoredProcedure).AsList<T>();
