@@ -1,0 +1,26 @@
+@hostname = http://localhost:8100
+
+get {{hostname}}/api/existing/parkerprofile/1400
+
+###
+
+get {{hostname}}/api/existing/simpleparker/09262019223738938002
+
+###
+
+get {{hostname}}/api/existing/parkerprofile/3250
+
+### 
+post {{hostname}}/api/existing/insertData
+Content-Type: application/json
+
+{
+    "cityId": 0,
+    "name": "Houston",
+    "state": "TX",
+    "population": "2215904"
+}
+
+###
+
+get {{hostname}}/api/state/getallstates

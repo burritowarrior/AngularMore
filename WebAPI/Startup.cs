@@ -11,6 +11,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using WebAPI.Interfaces;
+using WebAPI.Repositories;
 
 namespace WebAPI
 {
@@ -29,6 +31,8 @@ namespace WebAPI
         {
             // https://code-maze.com/enablling-cors-in-asp-net-core/
             services.AddControllers();
+
+            services.AddScoped<IStateRepository, StateRepository>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
