@@ -24,3 +24,7 @@ Content-Type: application/json
 ###
 
 get {{hostname}}/api/state/getallstates
+
+###
+
+get {{hostname}}/api/state/getstate/FL
