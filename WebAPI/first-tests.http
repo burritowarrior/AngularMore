@@ -28,3 +28,18 @@ get {{hostname}}/api/state/getallstates
 ###
 
 get {{hostname}}/api/state/getstate/FL
+
+###
+
+post {{hostname}}/api/state/addstate 
+Content-Type: application/json
+
+{
+	"stateName": "Puerto Rico",
+	"abbreviation": "PR",
+	"capital": "San Juan",
+	"population": 4028977,
+	"area": 99304,
+	"dateEntered": "1979-02-14T00:00:00",
+	"dateRank": 51
+}

@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Interfaces;
+using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
@@ -22,5 +23,22 @@ namespace WebAPI.Controllers
 
             return Ok(stateData);
         } 
+
+        [HttpGet]
+        [Route("getstate/{abbreviation}")]
+        public IActionResult GetStateByAbbreviation(string abbreviation)
+        {
+            var stateData = _stateRepository.GetStateByAbbreviation(abbreviation);
+
+            return Ok(stateData);
+        }
+
+        [HttpPost]
+        [Route("addstate")]
+        public IActionResult UpdateStatesMeta(StatesMeta state)
+        {
+            var rowsAffected = _stateRepository.AddNewState(state);
+            return Ok(state);
+        }
     }
 }
