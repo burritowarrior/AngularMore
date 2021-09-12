@@ -1,0 +1,4 @@
+@hostname = http://localhost:8100
+
+get {{hostname}}/api/company/simplecompany/3250
+

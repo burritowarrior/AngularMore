@@ -16,7 +16,7 @@ namespace WebAPI
         {
             Log.Logger = new LoggerConfiguration()
                 .MinimumLevel.Information()
-                .WriteTo.File(@".\output.txt", shared: true, rollingInterval: Serilog.RollingInterval.Day )
+                .WriteTo.File(@".\Logging\output.txt", shared: true, rollingInterval: Serilog.RollingInterval.Day )
                 .CreateLogger();
     
             try

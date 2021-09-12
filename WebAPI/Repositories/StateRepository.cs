@@ -95,5 +95,23 @@ namespace WebAPI.Repositories
             return rowsAffected;
 
         }
+
+        public int DeleteState(string abbreviation)
+        {
+            var rowsAffected = 0;
+
+            using (var sqlConnection = new SqlConnection(_developmentString))
+            using (var sqlCommand = new SqlCommand("DeleteStatesMeta", sqlConnection))
+            {
+                sqlConnection.Open();
+                sqlCommand.CommandType = System.Data.CommandType.StoredProcedure;
+
+                sqlCommand.Parameters.Add("@Abbreviation", System.Data.SqlDbType.VarChar, 12).Value = abbreviation;
+
+                rowsAffected = sqlCommand.ExecuteNonQuery();
+            }
+
+            return rowsAffected;
+        }
     }
 }

@@ -1,7 +1,0 @@
-2021-07-27 20:46:28.793 -07:00 [INF] Starting Web Host
-2021-07-27 20:46:29.656 -07:00 [INF] Now listening on: https://localhost:5001
-2021-07-27 20:46:29.658 -07:00 [INF] Now listening on: http://localhost:5000
-2021-07-27 20:46:29.658 -07:00 [INF] Application started. Press Ctrl+C to shut down.
-2021-07-27 20:46:29.658 -07:00 [INF] Hosting environment: Development
-2021-07-27 20:46:29.658 -07:00 [INF] Content root path: C:\Development19\AngularMore\WebAPI
-2021-07-27 20:46:52.933 -07:00 [INF] Application is shutting down...

@@ -40,5 +40,14 @@ namespace WebAPI.Controllers
             var rowsAffected = _stateRepository.AddNewState(state);
             return Ok(state);
         }
+
+        [HttpDelete]
+        [Route("deletestate/{abbreviation}")]
+        public IActionResult RemoveState(string abbreviation)
+        {
+            var rowsAffected = _stateRepository.DeleteState(abbreviation);
+
+            return Ok(rowsAffected);
+        }
     }
 }

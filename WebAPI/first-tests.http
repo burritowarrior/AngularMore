@@ -27,7 +27,7 @@ get {{hostname}}/api/state/getallstates
 
 ###
 
-get {{hostname}}/api/state/getstate/FL
+get {{hostname}}/api/state/getstate/VI
 
 ###
 
@@ -42,4 +42,23 @@ Content-Type: application/json
 	"area": 99304,
 	"dateEntered": "1979-02-14T00:00:00",
 	"dateRank": 51
+}
+
+###
+
+delete {{hostname}}/api/state/deletestate/VI
+
+###
+
+post {{hostname}}/api/state/addstate
+Content-Type: application/json
+
+{
+  "stateName": "Virgin Islands",
+  "abbreviation": "VI",
+  "capital": "Charlotte Amalie",
+  "population": 106631,
+  "area": 346,
+  "dateEntered": "2021-09-07T12:52:23.9195459-07:00",
+  "dateRank": 53
 }

@@ -9,5 +9,7 @@ namespace WebAPI.Interfaces
         StatesMeta GetStateByAbbreviation(string abbreviation);
 
         int AddNewState(StatesMeta state);
+
+        int DeleteState(string abbreviation);
     }
 }

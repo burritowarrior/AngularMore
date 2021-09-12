@@ -8,15 +8,15 @@ namespace DAL
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private IEnumerable<T> dto;
-        private string _connectionString = @"";
+         private string _connectionString = @"";
         private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
 
         public GenericRepository(bool useDevelopmentDatabase = false)
         {
             _connectionString = @"Server=TITANIA\SQLSTD2017;Database=AcePark;User Id=aceparkuser;Password=aceparkuser;";
 
-            if (useDevelopmentDatabase) {
+            if (useDevelopmentDatabase)
+            {
                 _connectionString = _developmentString;
             }
         }
@@ -27,10 +27,12 @@ namespace DAL
             sqlConn.Open();
 
             var theParams = propParameters == null ? null : new DynamicParameters();
-            if (theParams != null) {
-                foreach  (KeyValuePair<string, object> kvp in propParameters) {
+            if (theParams != null)
+            {
+                foreach (KeyValuePair<string, object> kvp in propParameters)
+                {
                     theParams.Add($"@{kvp.Key}", kvp.Value);
-                }                
+                }
             }
 
             return sqlConn.Query<T>(procedure, theParams, commandType: CommandType.StoredProcedure).AsList<T>();
@@ -42,7 +44,8 @@ namespace DAL
             sqlConn.Open();
 
             var theParams = new DynamicParameters();
-            foreach  (KeyValuePair<string, object> kvp in propParameters) {
+            foreach (KeyValuePair<string, object> kvp in propParameters)
+            {
                 theParams.Add($"@{kvp.Key}", kvp.Value);
             }
 
@@ -70,11 +73,6 @@ namespace DAL
             }
 
             return rowsAffected > 0;
-        }
-
-        void IGenericRepository<T>.Update(T entity)
-        {
-            throw new System.NotImplementedException();
         }
 
         public T FindById(int Id)

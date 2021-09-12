@@ -8,7 +8,7 @@ namespace DAL.Repository
         T FindById(string procedure, Dictionary<string, object> propParameters);
         bool Add(T entity);
         // void Delete(T entity);
-        void Update(T entity);
+        bool Update(T entity);
         T FindById(int Id); 
     }
 };
