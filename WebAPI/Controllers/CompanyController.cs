@@ -23,6 +23,21 @@ namespace WebAPI.Controllers
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    
+        }
+
+        [HttpGet]
+        [Route("rates/{lotNumber}/{companyId}")]
+        public IActionResult GetRatesByLotCompany(string lotNumber, string companyId)
+        {
+            try {
+                var gr = new DAL.GenericRepository<ActiveRate>();
+                FluentParameter fp = new FluentParameter().LotNumber(lotNumber).CompanyId(companyId);
+                
+                var activeRates = gr.All("[MRP].[GetActiveRatesByCompany]", fp.KeyData);
+                return Ok(activeRates);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
         }        
     }
 }

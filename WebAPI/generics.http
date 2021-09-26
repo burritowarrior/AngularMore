@@ -2,3 +2,6 @@
 
 get {{hostname}}/api/company/simplecompany/3250
 
+###
+
+get {{hostname}}/api/company/rates/4286/021617010716
