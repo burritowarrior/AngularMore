@@ -6,9 +6,10 @@ using Dapper;
 
 namespace DAL
 {
+    // https://blog.zhaytam.com/2019/03/14/generic-repository-pattern-csharp/
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-         private string _connectionString = @"";
+        private string _connectionString = @"";
         private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
 
         public GenericRepository(bool useDevelopmentDatabase = false)
@@ -51,24 +52,24 @@ namespace DAL
 
             return sqlConn.QueryFirst<T>(procedure, theParams, commandType: CommandType.StoredProcedure);
         }
-        public bool Add(T entity)
+        public bool Add(T entity, string schema = "dbo")
         {
             int rowsAffected = 0;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = entity.GenerateInsertStatement<T>();
+                var sqlQuery = entity.GenerateInsertStatement<T>(schema);
                 rowsAffected = db.Execute(sqlQuery, entity);
             }
 
             return rowsAffected > 0;
         }
 
-        public bool Update(T entity)
+        public bool Update(T entity, string schema = "dbo")
         {
             int rowsAffected = 0;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
-                var sqlQuery = entity.GenerateUpdateStatement<T>();
+                var sqlQuery = entity.GenerateUpdateStatement<T>(schema);
                 rowsAffected = db.Execute(sqlQuery, entity);
             }
 
@@ -78,6 +79,16 @@ namespace DAL
         public T FindById(int Id)
         {
             throw new System.NotImplementedException();
+        }
+
+        public void Delete(T entity, string schema = "dbo")
+        {
+            int rowsAffected = 0;
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                var sqlQuery = entity.GenerateDeleteStatement<T>(schema);
+                rowsAffected = db.Execute(sqlQuery, entity);
+            }
         }
     }
 }

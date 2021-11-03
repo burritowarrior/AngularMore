@@ -5,3 +5,21 @@ get {{hostname}}/api/company/simplecompany/3250
 ###
 
 get {{hostname}}/api/company/rates/4286/021617010716
+
+###
+
+get {{hostname}}/api/login/alllogins
+
+###
+
+post {{hostname}}/api/login/addlogin
+Content-Type: application/json
+
+{
+  "Id": 0,
+  "Email": "someuser@aol.com",
+  "Password": "12124314534",
+  "EmployeeName": "Fred Flintstone",
+  "City": "San Diego",
+  "Department": "GN"
+}

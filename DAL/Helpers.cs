@@ -8,7 +8,7 @@ namespace DAL
 {
     public static class Helpers
     {
-        public static string GenerateInsertStatement<T>(this T item)
+        public static string GenerateInsertStatement<T>(this T item, string schema = "dbo")
         {
             var props = item.GetType().GetProperties();
             var colNames = props.Select(s => s.Name).ToArray();
@@ -55,18 +55,18 @@ namespace DAL
             
             var fieldClause = string.Join(", ", colNames); 
             var chars = new char[] { ',', ' ' };
-            var sql = $"INSERT INTO {item.GetType().Name} ({fieldClause}) VALUES ({sb.ToString().Trim(chars)})";
+            var sql = $"INSERT INTO {schema}.{item.GetType().Name} ({fieldClause}) VALUES ({sb.ToString().Trim(chars)})";
             
             return sql;
         }
 
-        public static string GenerateUpdateStatement<T>(this T item)
+        public static string GenerateUpdateStatement<T>(this T item, string schema = "dbo")
         {
             var props = item.GetType().GetProperties();
             var colNames = props.Select(s => s.Name).ToArray();
             var statements = new List<string>();
 
-            var initialSql = $"UPDATE {item.GetType().Name} SET ";
+            var initialSql = $"UPDATE {schema}.{item.GetType().Name} SET ";
             
             foreach (var val in props)
             {
@@ -84,24 +84,30 @@ namespace DAL
             return $"{initialSql} {kookoo} {whereClause}";
         }
 
-        public static string GenerateDeleteStatement<T>(this T item)
+        public static string GenerateDeleteStatement<T>(this T item, string schema = "dbo")
         {
             var props = item.GetType().GetProperties();
             var colNames = props.Select(s => s.Name).ToArray();
             var statements = new List<string>();
 
-            var initialSql = $"DELETE FROM {item.GetType().Name} WHERE ";
-            
+            var initialSql = $"DELETE FROM {schema}.{item.GetType().Name} ";
+            statements.Add(initialSql);
+
             foreach (var val in props)
             {
                 var attributeValue = (KeyAttribute[])val.GetCustomAttributes(typeof(KeyAttribute), false);
-                var results = attributeValue.Length > 0 
-                    ? ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null), true)
-                    : ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null));
-                statements.Add(results);
+                if (attributeValue.Length > 0) {
+                    var results = ResolveType(val.Name, val.PropertyType.ToString(), val.GetValue(item, null), true);
+                    statements.Add(results);
+                }
             }
 
-            return $"{initialSql}";
+            var sb = new StringBuilder();
+
+            // C# Extension Method: StringBuilder - AppendJoin
+            var query = sb.AppendJoin(" ", statements.ToArray()).ToString();            
+
+            return query;
         }
 
         private static string ResolveType(string propertyName, string propertyType, object value, bool isKeyValue = false)

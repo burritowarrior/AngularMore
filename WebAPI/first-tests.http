@@ -1,8 +1,45 @@
 @hostname = http://localhost:8100
 
-get {{hostname}}/api/existing/parkerprofile/1400
+get {{hostname}}/api/company/simplecompany/4286
 
 ###
+
+get {{hostname}}/api/existing/parkerprofile/1400
+
+### 
+
+get {{hostname}}/api/promotion/allpromotions
+
+### 
+
+post {{hostname}}/api/promotion/addpromotion
+Content-Type: application/json 
+
+{
+   "PromotionId":0,
+   "PromotionName":"Machaca Burrito Special",
+   "StartDate":"2021-09-01",
+   "EndDate":"2021-12-31",
+   "CreatedBy":"coson",
+   "DateEntered":"2021-10-23T22:28:53.060"
+}
+
+###
+
+delete {{hostname}}/api/promotion/deletepromotion
+Content-Type: application/json
+
+{
+   "PromotionId":838,
+   "PromotionName":"Friday Special",
+   "StartDate":"2021-06-01T00:00:00",
+   "EndDate":"2021-08-31T00:00:00",
+   "CreatedBy":"coson",
+   "DateEntered":"2021-09-28T20:28:53"
+}
+
+###
+
 
 get {{hostname}}/api/existing/simpleparker/09262019223738938002
 
