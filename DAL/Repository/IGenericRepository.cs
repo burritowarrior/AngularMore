@@ -11,4 +11,9 @@ namespace DAL.Repository
         bool Update(T entity, string schema = "dbo");
         T FindById(int Id); 
     }
-};
+
+    public interface IGenericObjectRepository<T> where T : class
+    {
+        bool AddObject(T entity, string procedure, string schema = "dbo");
+    }
+}

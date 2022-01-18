@@ -104,3 +104,24 @@ Content-Type: application/json
   "dateEntered": "2021-09-07T12:52:23.9195459-07:00",
   "dateRank": 53
 }
+
+###
+post {{hostname}}/api/company/addnewcompany
+Content-Type: application/json
+
+{
+  "LotNumber": "4286",
+  "CompanyId": "01172022233125130829",
+  "CompanyName": "Cornjulio Company",
+  "Address": "234 Market St",
+  "AddressLine": "",
+  "City": "San Francisco",
+  "State": "CA",
+  "ZipCode": "94119",
+  "Phone": "4159833931",
+  "Contact": "",
+  "EmailAddress": "BobTheSlob@gmail.com",
+  "StartDate": "2020-05-15T00:00:00",
+  "DeliveryType": "Print",
+  "Active": "A"
+}

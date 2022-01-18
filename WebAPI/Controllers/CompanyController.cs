@@ -2,6 +2,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Serilog;
+using Serilog.Core;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -10,6 +12,17 @@ namespace WebAPI.Controllers
     [ApiController]
     public class CompanyController : ControllerBase
     {
+        private readonly Logger _log;
+        // private readonly bool _useDevelopmentDatabase;
+
+        public CompanyController()
+        {
+            _log = new LoggerConfiguration()
+                .WriteTo.File(@".\output_log.txt", shared: true, rollingInterval: RollingInterval.Day)
+                .CreateLogger();
+            // _useDevelopmentDatabase = true;
+        }
+
         [HttpGet]
         [Route("simplecompany/{lotNumber}")]
         public IActionResult GetSimpleCompany(string lotNumber)
@@ -38,6 +51,38 @@ namespace WebAPI.Controllers
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    
-        }        
+        }
+
+        [HttpGet]
+        [Route("allrates/{lotNumber}")]
+        public IActionResult GetRatesByLot(string lotNumber)
+        {
+            try {
+                var gr = new DAL.GenericRepository<Models.BaseRate>();
+                FluentParameter fp = new FluentParameter().LotNumber(lotNumber);
+                
+                var activeRates = gr.All("[MRP].[GetRatesByLotNumber]", fp.KeyData);
+                return Ok(activeRates);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
+        } 
+
+        [HttpPost]
+        [Route("addnewcompany")]
+        public IActionResult InsertCompany(SimpleCompany newCompany)
+        {
+            try {
+                var gr = new DAL.GenericRepository<SimpleCompany>(false);
+                var results = gr.AddObject(newCompany, "[DEV].[AddCompany]", "DEV");
+
+                _log.Write(Serilog.Events.LogEventLevel.Information, @"Successfully added new company");
+                
+                return Ok(newCompany);
+            } catch (Exception ex) {
+                _log.Write(Serilog.Events.LogEventLevel.Information, $@"Error: {ex.StackTrace} ");
+                return BadRequest(ex.Message + " - " + ex.StackTrace);
+            }    
+        }
     }
 }

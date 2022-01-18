@@ -18,6 +18,5 @@ namespace WebAPI.Models
         public DateTime StartDate { get; set; }
         public string DeliveryType { get; set; }
         public string Active { get; set; }
-
     }
 }

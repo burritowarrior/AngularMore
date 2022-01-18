@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Reflection;
 using DAL.Repository;
 using Dapper;
 
 namespace DAL
 {
     // https://blog.zhaytam.com/2019/03/14/generic-repository-pattern-csharp/
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T>, IGenericObjectRepository<T> where T : class
     {
         private string _connectionString = @"";
         private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
@@ -89,6 +91,26 @@ namespace DAL
                 var sqlQuery = entity.GenerateDeleteStatement<T>(schema);
                 rowsAffected = db.Execute(sqlQuery, entity);
             }
+        }
+
+        public bool AddObject(T entity, string procedure, string schema = "dbo")
+        {
+            int rowsAffected = 0;
+            Type objType = typeof(T);
+
+            using (IDbConnection db = new SqlConnection(_connectionString))
+            {
+                DynamicParameters dp = new DynamicParameters();
+
+                foreach (var p in objType.GetProperties())
+                {
+                    dp.Add(p.Name, p.GetValue(entity));
+                }
+
+                db.Execute(procedure, dp, commandType: CommandType.StoredProcedure);
+            }
+
+            return rowsAffected > 0;
         }
     }
 }
