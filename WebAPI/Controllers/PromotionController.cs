@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("alllogins")]
+        [Route("allpromotions")]
         public IActionResult GetAllPromotions()
         {
             try {

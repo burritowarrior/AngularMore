@@ -7,6 +7,7 @@ namespace Models.Miscellaneous
     {
         [Key]
         public int PromotionId { get; set; } 
+        public string LotNumber { get; set; }
         public string PromotionName { get; set; } 
         public DateTime StartDate { get; set; } 
         public DateTime EndDate { get; set; } 
