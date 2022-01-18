@@ -12,16 +12,21 @@ get {{hostname}}/api/promotion/allpromotions
 
 ### 
 
+get {{hostname}}/api/company/allrates/4286
+
+### 
+
 post {{hostname}}/api/promotion/addpromotion
 Content-Type: application/json 
 
 {
    "PromotionId":0,
-   "PromotionName":"Machaca Burrito Special",
-   "StartDate":"2021-09-01",
+   "LotNumber": "3250",
+   "PromotionName":"Carne Asada Taco",
+   "StartDate":"2021-06-01",
    "EndDate":"2021-12-31",
    "CreatedBy":"coson",
-   "DateEntered":"2021-10-23T22:28:53.060"
+   "DateEntered":"2021-11-27T21:54:33.097"
 }
 
 ###
