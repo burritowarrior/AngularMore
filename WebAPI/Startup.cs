@@ -38,13 +38,15 @@ namespace WebAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebAPI", Version = "v1" });
             });
 
-            services.AddCors(opt => {
-                opt.AddPolicy(name: _policyName, builder => {
-                    builder.AllowAnyOrigin()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-                });
-            });
+            services.AddCors();
+
+            // services.AddCors(opt => {
+            //     opt.AddPolicy(name: _policyName, builder => {
+            //         builder.AllowAnyOrigin()
+            //             .AllowAnyHeader()
+            //             .AllowAnyMethod();
+            //     });
+            // });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +62,12 @@ namespace WebAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(_policyName);
+            // app.UseCors(_policyName);
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials());
 
             app.UseAuthorization();
 

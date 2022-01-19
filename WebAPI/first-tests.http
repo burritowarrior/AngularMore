@@ -110,18 +110,18 @@ post {{hostname}}/api/company/addnewcompany
 Content-Type: application/json
 
 {
-  "LotNumber": "4286",
-  "CompanyId": "01172022233125130829",
-  "CompanyName": "Cornjulio Company",
-  "Address": "234 Market St",
-  "AddressLine": "",
-  "City": "San Francisco",
-  "State": "CA",
-  "ZipCode": "94119",
-  "Phone": "4159833931",
-  "Contact": "",
-  "EmailAddress": "BobTheSlob@gmail.com",
-  "StartDate": "2020-05-15T00:00:00",
-  "DeliveryType": "Print",
-  "Active": "A"
+  "lotNumber": "4286",
+  "companyId": "01182022124120164253",
+  "companyName": "Arcturus Technologies",
+  "address": "904 S. Market",
+  "addressLine": "",
+  "city": "San Francisco",
+  "state": "CA",
+  "zipCode": "94117",
+  "phone": "4153984123",
+  "contact": "",
+  "emailAddress": "testdata@gmail.com",
+  "deliveryType": "Print",
+  "active": "A",
+  "startDate": "2022-01-05T00:00:00"
 }

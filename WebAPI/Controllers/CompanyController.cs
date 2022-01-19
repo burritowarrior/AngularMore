@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         public CompanyController()
         {
             _log = new LoggerConfiguration()
-                .WriteTo.File(@".\output_log.txt", shared: true, rollingInterval: RollingInterval.Day)
+                .WriteTo.File(@"C:\inetpub\logs\WebAPI\output_log.txt", shared: true, rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             // _useDevelopmentDatabase = true;
         }
@@ -77,6 +77,7 @@ namespace WebAPI.Controllers
                 var results = gr.AddObject(newCompany, "[DEV].[AddCompany]", "DEV");
 
                 _log.Write(Serilog.Events.LogEventLevel.Information, @"Successfully added new company");
+                _log.Information("This is awesome...");
                 
                 return Ok(newCompany);
             } catch (Exception ex) {
