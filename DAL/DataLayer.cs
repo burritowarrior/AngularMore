@@ -7,6 +7,8 @@ using Models;
 
 namespace DAL
 {
+    // TODO:  Deprecate this - Not Needed
+    [Obsolete]
     public class DataLayer
     {
         private string _connectionString = @"";

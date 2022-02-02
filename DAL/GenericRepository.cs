@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Reflection;
 using DAL.Repository;
 using Dapper;
 
@@ -13,8 +12,9 @@ namespace DAL
     {
         private string _connectionString = @"";
         private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
+        private string _awString = @"Server=TITANIA\SQLSTD2017;Database=AdventureWorks;User Id=awuser;Password=awuser;";
 
-        public GenericRepository(bool useDevelopmentDatabase = false)
+        public  GenericRepository(bool useDevelopmentDatabase = false)
         {
             _connectionString = @"Server=TITANIA\SQLSTD2017;Database=AcePark;User Id=aceparkuser;Password=aceparkuser;";
 
@@ -24,6 +24,8 @@ namespace DAL
             }
         }
 
+
+        #region IGenericRepository
         public IEnumerable<T> All(string procedure, Dictionary<string, object> propParameters = null)
         {
             using var sqlConn = new SqlConnection(_connectionString);
@@ -37,6 +39,8 @@ namespace DAL
                     theParams.Add($"@{kvp.Key}", kvp.Value);
                 }
             }
+
+            // var whatever = sqlConn.QueryAsync<T>(procedure, theParams,  commandType: CommandType.StoredProcedure);
 
             return sqlConn.Query<T>(procedure, theParams, commandType: CommandType.StoredProcedure).AsList<T>();
         }
@@ -78,9 +82,16 @@ namespace DAL
             return rowsAffected > 0;
         }
 
-        public T FindById(int Id)
+        public T FindById(int id, string procedure, bool useAWConnection = false)
         {
-            throw new System.NotImplementedException();
+            using var sqlConn = useAWConnection
+                ? new SqlConnection(_awString) : new SqlConnection(_connectionString);
+            sqlConn.Open();
+
+            var theParams = new DynamicParameters();
+            theParams.Add("@Id", id);
+
+            return sqlConn.QueryFirst<T>(procedure, theParams, commandType: CommandType.StoredProcedure);
         }
 
         public void Delete(T entity, string schema = "dbo")
@@ -92,7 +103,9 @@ namespace DAL
                 rowsAffected = db.Execute(sqlQuery, entity);
             }
         }
-
+        #endregion
+        
+        #region IGenericObjectRepository
         public bool AddObject(T entity, string procedure, string schema = "dbo")
         {
             int rowsAffected = 0;
@@ -112,5 +125,6 @@ namespace DAL
 
             return rowsAffected > 0;
         }
+        #endregion
     }
 }

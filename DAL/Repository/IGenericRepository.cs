@@ -9,7 +9,7 @@ namespace DAL.Repository
         bool Add(T entity, string schema = "dbo");
         void Delete(T entity, string schema = "dbo");
         bool Update(T entity, string schema = "dbo");
-        T FindById(int Id); 
+        T FindById(int Id, string procedure, bool useAWConnection = false); 
     }
 
     public interface IGenericObjectRepository<T> where T : class

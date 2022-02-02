@@ -12,6 +12,7 @@ namespace WebAPI.Controllers
     {
         [HttpGet]
         [Route("rates/{lotNumber}")]
+        [Obsolete]
         public IActionResult GetRates(string lotNumber)
         {
             // IEnumerable<BaseRate>
@@ -53,6 +54,20 @@ namespace WebAPI.Controllers
                 return BadRequest(ex.Message);
             }    
         }
+
+        [HttpGet]
+        [Route("books/{id}")]
+        public IActionResult GetBooks(int id)
+        {
+            try {
+                var gr = new DAL.GenericRepository<Book>();
+                
+                var foundBook = gr.FindById(id, "DEV.GetBooksById", true);
+                return Ok(foundBook);
+            } catch (Exception ex) {
+                return BadRequest(ex.Message);
+            }    
+        }        
 
         [HttpPost]
         [Route("InsertData")]
