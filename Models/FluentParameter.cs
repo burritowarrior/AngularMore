@@ -30,5 +30,18 @@ namespace Models
             parameter.CompanyId = companyId;
             return this;
         }
+
+        public FluentParameter LoadUsualSuspects(string lotNumber, string companyId)
+        {
+            var propertyCompanyId = nameof(parameter.CompanyId);
+            var propertyLotNumber = nameof(parameter.LotNumber);
+
+            if (!KeyData.ContainsKey(propertyLotNumber)) KeyData[propertyLotNumber] = lotNumber;
+            if (!KeyData.ContainsKey(propertyCompanyId)) KeyData[propertyCompanyId] = companyId; 
+
+            parameter.LotNumber = propertyLotNumber;           
+            parameter.CompanyId = propertyCompanyId;
+            return this;
+        }
     }
 }
