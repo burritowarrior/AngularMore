@@ -13,13 +13,15 @@ namespace DAL
         private string _connectionString = @"";
         private string _developmentString = @"Server=TITANIA\SQLSTD2017;Database=Development;User Id=aceparkuser;Password=aceparkuser;";
         private string _awString = @"Server=TITANIA\SQLSTD2017;Database=AdventureWorks;User Id=awuser;Password=awuser;";
+        private string _storageString = @"Server=TITANIA\SQLSTD2017;Database=Storage;User Id=sqluser;Password=sqluser";
 
-        public  GenericRepository(bool useDevelopmentDatabase = false)
+        public  GenericRepository(bool useDevelopmentDatabase = false, bool useStorageDevelopment = false)
         {
             _connectionString = @"Server=TITANIA\SQLSTD2017;Database=AcePark;User Id=aceparkuser;Password=aceparkuser;";
 
-            if (useDevelopmentDatabase)
-            {
+            if (useStorageDevelopment) {
+                _connectionString = _storageString;
+            } else if (useDevelopmentDatabase) {
                 _connectionString = _developmentString;
             }
         }
