@@ -8,8 +8,8 @@ namespace Models.Miscellaneous
     public class AllProgram
     {
         public string ProgramId { get; set; }
-        public string Program { get; set; }
-        public string Description { get; set; }
-        public string Agency { get; set; }
+        public string ProgramName { get; set; }
+        public string ProgramDescription { get; set; }
+        public string ProgramAgency { get; set; }
     }
 }
