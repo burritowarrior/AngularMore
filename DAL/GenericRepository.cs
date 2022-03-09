@@ -60,16 +60,19 @@ namespace DAL
 
             return sqlConn.QueryFirst<T>(procedure, theParams, commandType: CommandType.StoredProcedure);
         }
-        public bool Add(T entity, string schema = "dbo")
+        public int Add(T entity, string schema = "dbo")
         {
-            int rowsAffected = 0;
+            int identity = 0;
             using (IDbConnection db = new SqlConnection(_connectionString))
             {
                 var sqlQuery = entity.GenerateInsertStatement<T>(schema);
-                rowsAffected = db.Execute(sqlQuery, entity);
+                // sqlQuery = sqlQuery.Replace("VALUES", "OUTPUT INSERTED.PromotionId VALUES");
+                sqlQuery += ";SELECT CAST(SCOPE_IDENTITY() AS INT)";
+                identity = db.ExecuteScalar<int>(sqlQuery, entity);
+                // rowsAffected = db.Execute(sqlQuery, entity);
             }
 
-            return rowsAffected > 0;
+            return identity;
         }
 
         public bool Update(T entity, string schema = "dbo")

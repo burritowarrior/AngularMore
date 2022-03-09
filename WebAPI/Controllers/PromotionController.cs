@@ -44,8 +44,9 @@ namespace WebAPI.Controllers
                 var success = gr.Add(promotion, "MRP");
 
                 _log.Write(Serilog.Events.LogEventLevel.Information, @"Successfully added new promotion");
+                _log.Write(Serilog.Events.LogEventLevel.Information, $"New Identity: {success}");
 
-                return Ok(promotion);
+                return Ok(success);
             } catch (Exception ex) {
                 return BadRequest(ex.Message);
             }    

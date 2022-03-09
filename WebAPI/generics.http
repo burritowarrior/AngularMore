@@ -23,3 +23,44 @@ Content-Type: application/json
   "City": "San Diego",
   "Department": "GN"
 }
+
+###
+
+post {{hostname}}/api/promotion/addpromotion
+Content-Type: application/json
+
+{
+  "promotionId":0,
+  "lotNumber":"4286",
+  "promotionName":"Cheese Enchiladas",
+  "createdBy":"Tammy Bautista",
+  "startDate":"2022-01-01T08:00:00.000Z",
+  "endDate":"2022-02-02T08:00:00.000Z",
+  "dateEntered":"2022-03-09T00:06:19.067Z"
+}
+
+###
+
+post {{hostname}}/api/goal/addgoal
+Content-Type: application/json
+
+{
+  "goalId": 0,
+  "problem": "The Problem With Me and You",
+  "desiredGoal": "The Goal",
+  "goalDate": "2023-01-01",
+  "barrier": "The Barrier",
+  "dateEntered":"2022-02-11"
+}
+
+###
+post {{hostname}}/api/intervention/addintervention
+Content-Type: application/json
+
+{
+  "interventionId": 0,
+  "goalId": 2052,
+  "interventionReason": "Another One Bites the Dust",
+  "interventionDate": "2022-01-09",
+  "dateEntered":"2022-03-01"
+}
